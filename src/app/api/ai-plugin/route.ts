@@ -246,7 +246,7 @@ export async function GET() {
                     }
                 }
             },
-            "/api/tools/create-transaction": {
+            "/api/tools/create-near-transaction": {
                 get: {
                     operationId: "createNearTransaction",
                     summary: "Create a NEAR transaction payload",
