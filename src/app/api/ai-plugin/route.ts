@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-
+import { toolConfigs } from "@/config/tools";
 
 const key = JSON.parse(process.env.BITTE_KEY || "{}");
 const config = JSON.parse(process.env.BITTE_CONFIG || "{}");
@@ -12,8 +12,8 @@ export async function GET() {
     const pluginData = {
         openapi: "3.0.0",
         info: {
-            title: "Boilerplate",
-            description: "API for the boilerplate",
+            title: "Bitte Agent Tools",
+            description: "Enhanced API for blockchain operations and social interactions",
             version: "1.0.0",
         },
         servers: [
@@ -24,17 +24,28 @@ export async function GET() {
         "x-mb": {
             "account-id": key.accountId,
             assistant: {
-                name: "Your Assistant",
-                description: "An assistant that answers with blockchain information",
-                instructions: "You answer with a list of blockchains. Use the tools to get blockchain information.",
-                tools: [{ type: "generate-transaction" }]
+                name: "Blockchain & Social Assistant",
+                description: "A versatile assistant for blockchain operations, transactions, and social media interactions",
+                instructions: `
+                    - Use blockchain tools to get network information and create transactions
+                    - Share content on social media platforms like Twitter
+                    - Fetch and analyze Reddit posts
+                    - Handle user interactions and provide clear feedback
+                    - Use coin flip for random binary decisions
+                `,
+                tools: [
+                    { type: "generate-transaction" },
+                    { type: "social-share" },
+                    { type: "blockchain-info" },
+                    { type: "content-fetch" }
+                ]
             },
         },
         paths: {
             "/api/tools/get-blockchains": {
                 get: {
-                    summary: "get blockchain information",
-                    description: "Respond with a list of blockchains",
+                    summary: toolConfigs.getBlockchains.name,
+                    description: toolConfigs.getBlockchains.description,
                     operationId: "get-blockchains",
                     responses: {
                         "200": {
@@ -54,12 +65,12 @@ export async function GET() {
                             },
                         },
                     },
-                },
+                }
             },
             "/api/tools/get-user": {
                 get: {
-                    summary: "get user information",
-                    description: "Respond with user account ID",
+                    summary: toolConfigs.getUser.name,
+                    description: toolConfigs.getUser.description,
                     operationId: "get-user",
                     responses: {
                         "200": {
@@ -79,12 +90,12 @@ export async function GET() {
                             },
                         },
                     },
-                },
+                }
             },
             "/api/tools/reddit": {
                 get: {
-                    summary: "get Reddit frontpage posts",
-                    description: "Fetch and return a list of posts from the Reddit frontpage",
+                    summary: toolConfigs.reddit.name,
+                    description: toolConfigs.reddit.description,
                     operationId: "get-reddit-posts",
                     responses: {
                         "200": {
@@ -153,47 +164,10 @@ export async function GET() {
             },
             "/api/tools/twitter": {
                 get: {
-                    operationId: "getTwitterShareIntent",
-                    summary: "Generate a Twitter share intent URL",
-                    description: "Creates a Twitter share intent URL based on provided parameters",
-                    parameters: [
-                        {
-                            name: "text",
-                            in: "query",
-                            required: true,
-                            schema: {
-                                type: "string"
-                            },
-                            description: "The text content of the tweet"
-                        },
-                        {
-                            name: "url",
-                            in: "query",
-                            required: false,
-                            schema: {
-                                type: "string"
-                            },
-                            description: "The URL to be shared in the tweet"
-                        },
-                        {
-                            name: "hashtags",
-                            in: "query",
-                            required: false,
-                            schema: {
-                                type: "string"
-                            },
-                            description: "Comma-separated hashtags for the tweet"
-                        },
-                        {
-                            name: "via",
-                            in: "query",
-                            required: false,
-                            schema: {
-                                type: "string"
-                            },
-                            description: "The Twitter username to attribute the tweet to"
-                        }
-                    ],
+                    operationId: toolConfigs.twitter.schema.operationId,
+                    summary: toolConfigs.twitter.name,
+                    description: toolConfigs.twitter.description,
+                    parameters: toolConfigs.twitter.schema.parameters,
                     responses: {
                         "200": {
                             description: "Successful response",
@@ -248,29 +222,10 @@ export async function GET() {
             },
             "/api/tools/create-transaction": {
                 get: {
-                    operationId: "createNearTransaction",
-                    summary: "Create a NEAR transaction payload",
-                    description: "Generates a NEAR transaction payload for transferring tokens",
-                    parameters: [
-                        {
-                            name: "receiverId",
-                            in: "query",
-                            required: true,
-                            schema: {
-                                type: "string"
-                            },
-                            description: "The NEAR account ID of the receiver"
-                        },
-                        {
-                            name: "amount",
-                            in: "query",
-                            required: true,
-                            schema: {
-                                type: "string"
-                            },
-                            description: "The amount of NEAR tokens to transfer"
-                        }
-                    ],
+                    operationId: toolConfigs.createTransaction.schema.operationId,
+                    summary: toolConfigs.createTransaction.name,
+                    description: toolConfigs.createTransaction.description,
+                    parameters: toolConfigs.createTransaction.schema.parameters,
                     responses: {
                         "200": {
                             description: "Successful response",
@@ -351,9 +306,9 @@ export async function GET() {
             },
             "/api/tools/coinflip": {
                 get: {
-                    summary: "Coin flip",
-                    description: "Flip a coin and return the result (heads or tails)",
-                    operationId: "coinFlip",
+                    summary: toolConfigs.coinflip.name,
+                    description: toolConfigs.coinflip.description,
+                    operationId: toolConfigs.coinflip.schema.operationId,
                     responses: {
                         "200": {
                             description: "Successful response",

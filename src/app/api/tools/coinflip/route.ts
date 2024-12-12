@@ -1,4 +1,5 @@
-import { NextResponse } from 'next/server';
+import { CoinFlipResponse } from '@/types/tools';
+import { createToolResponse, createErrorResponse } from '@/utils/tools';
 
 export async function GET() {
   try {
@@ -6,9 +7,9 @@ export async function GET() {
     const result = Math.random() < 0.5 ? 'heads' : 'tails';
 
     // Return the result
-    return NextResponse.json({ result });
+    return createToolResponse<CoinFlipResponse>({ result });
   } catch (error) {
     console.error('Error in coin flip:', error);
-    return NextResponse.json({ error: 'Failed to perform coin flip' }, { status: 500 });
+    return createErrorResponse('Failed to perform coin flip', 500);
   }
 }
