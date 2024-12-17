@@ -246,7 +246,7 @@ export async function GET() {
                     }
                 }
             },
-            "/api/tools/create-transaction": {
+            "/api/tools/create-near-transaction": {
                 get: {
                     operationId: "createNearTransaction",
                     summary: "Create a NEAR transaction payload",
@@ -374,6 +374,116 @@ export async function GET() {
                         },
                         "500": {
                             description: "Error response",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        type: "object",
+                                        properties: {
+                                            error: {
+                                                type: "string",
+                                                description: "Error message"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/api/tools/create-evm-transaction": {
+                get: {
+                    summary: "Create EVM transaction",
+                    description: "Generate a signed EVM transaction with specified recipient and amount",
+                    operationId: "create-evm-transaction",
+                    parameters: [
+                        {
+                            name: "to",
+                            in: "query",
+                            required: true,
+                            schema: {
+                                type: "string",
+                                description: "Recipient address"
+                            }
+                        },
+                        {
+                            name: "amount", 
+                            in: "query",
+                            required: true,
+                            schema: {
+                                type: "string",
+                                description: "Transaction amount"
+                            }
+                        }
+                    ],
+                    responses: {
+                        "200": {
+                            description: "Successful response",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        type: "object",
+                                        properties: {
+                                            signedTransaction: {
+                                                type: "object",
+                                                properties: {
+                                                    method: {
+                                                        type: "string",
+                                                        description: "Transaction method"
+                                                    },
+                                                    chainId: {
+                                                        type: "number",
+                                                        description: "Chain ID"
+                                                    },
+                                                    params: {
+                                                        type: "array",
+                                                        items: {
+                                                            type: "object",
+                                                            properties: {
+                                                                from: {
+                                                                    type: "string",
+                                                                    description: "Sender address"
+                                                                },
+                                                                to: {
+                                                                    type: "string", 
+                                                                    description: "Recipient address"
+                                                                },
+                                                                value: {
+                                                                    type: "string",
+                                                                    description: "Transaction value"
+                                                                },
+                                                                data: {
+                                                                    type: "string",
+                                                                    description: "Transaction data"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "400": {
+                            description: "Bad request",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        type: "object",
+                                        properties: {
+                                            error: {
+                                                type: "string",
+                                                description: "Error message"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "500": {
+                            description: "Server error",
                             content: {
                                 "application/json": {
                                     schema: {
