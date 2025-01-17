@@ -1,4 +1,4 @@
-import { ACCOUNT_ID, PLUGIN_URL } from "@/app/config";
+import { PLUGIN_URL } from "@/app/config";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -15,7 +15,6 @@ export async function GET() {
             },
         ],
         "x-mb": {
-            "account-id": ACCOUNT_ID,
             assistant: {
                 name: "Your Assistant",
                 description: "An assistant that answers with blockchain information, tells the user's account id, interacts with twitter, creates transaction payloads for NEAR and EVM blockchains, and flips coins.",
