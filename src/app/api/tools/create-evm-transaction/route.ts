@@ -6,6 +6,7 @@ import { parseEther } from 'viem';
 
 export async function GET(request: Request) {
   try {
+    // test
     const { searchParams } = new URL(request.url);
     const to = searchParams.get('to');
     const amount = searchParams.get('amount');
