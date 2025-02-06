@@ -25,7 +25,7 @@
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
     "concurrently": "9.1.2",
-    "make-agent": "0.2.4",
+    "make-agent": "0.2.5-add-injected-wallet-1cd0dce",
     "typescript": "5.7.3",
     "postcss": "^8.5.1",
     "tailwindcss": "^3.4.17",
