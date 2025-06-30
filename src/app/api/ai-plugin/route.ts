@@ -1,5 +1,13 @@
 import { ACCOUNT_ID, PLUGIN_URL } from "@/app/config";
 import { NextResponse } from "next/server";
+import {
+  chainIdParam,
+  addressParam,
+  SignRequestResponse200,
+  AddressSchema,
+  MetaTransactionSchema,
+  SignRequestSchema,
+} from "@bitte-ai/agent-sdk";
 
 export async function GET() {
     const pluginData = {
@@ -432,7 +440,61 @@ export async function GET() {
                     }
                 }
             },
+            "/api/tools/eth-sign-request": {
+              get: {
+                summary: "returns ethereum signature requests",
+                description:
+                    "Constructs requested signature requests (eth_sign, personal_sign, eth_signTypedData, eth_signTypedData_v4)",
+                operationId: "eth-sign",
+                parameters: [
+                    { $ref: "#/components/parameters/chainId" },
+                    { $ref: "#/components/parameters/evmAddress" },
+                    { $ref: "#/components/parameters/method" },
+                    { $ref: "#/components/parameters/message" },
+                ],
+                responses: {
+                    "200": { $ref: "#/components/responses/SignRequestResponse200" },
+                },
+              },
+            },
         },
+        components: {
+      parameters: {
+        evmAddress: { ...addressParam, name: "evmAddress" },
+        method: {
+          name: "method",
+          description: 'The signing method to be used.',
+          type: 'enum',
+          in: "query",
+          required: true,
+          enum: [
+            'eth_sign',
+            'personal_sign',
+            'eth_signTypedData',
+            'eth_signTypedData_v4',
+          ],
+          schema: {type: "string"},
+          example: "eth_sign",
+        },
+        chainId: {...chainIdParam, example: 11155111, required: false},
+        message: {
+          name: "message",
+          in: "query",
+          required: false,
+          description: "any text message",
+          schema: { type: "string" },
+          example: "Hello Bitte",
+        },
+      },
+      responses: {
+        SignRequestResponse200,
+      },
+      schemas: {
+        Address: AddressSchema,
+        MetaTransaction: MetaTransactionSchema,
+        SignRequest: SignRequestSchema,
+      },
+    },
     };
 
     return NextResponse.json(pluginData);
