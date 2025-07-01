@@ -1,4 +1,4 @@
-import { ACCOUNT_ID, PLUGIN_URL } from "@/app/config";
+import { ACCOUNT_ID } from "@/app/config";
 import { NextResponse } from "next/server";
 import {
   chainIdParam,
@@ -15,20 +15,32 @@ export async function GET() {
         info: {
             title: "Boilerplate",
             description: "API for the boilerplate",
-            version: "1.0.0",
+            version: "1.0.0"
         },
         servers: [
             {
-                url: PLUGIN_URL,
-            },
+                // Enter the base and open url of your agent here, make sure it is reachable
+                url: "https://snapshot-agent.vercel.app/"
+            }
         ],
         "x-mb": {
+            // The account id of the user who created the agent found in .env file
             "account-id": ACCOUNT_ID,
+            // The email of the user who created the agent
+            email: "youremail@gmail.com",
             assistant: {
-                name: "Your Assistant",
+                name: "Your Agent",
                 description: "An assistant that answers with blockchain information, tells the user's account id, interacts with twitter, creates transaction payloads for NEAR and EVM blockchains, and flips coins.",
                 instructions: "You create near and evm transactions, give blockchain information, tell the user's account id, interact with twitter and flip coins. For blockchain transactions, first generate a transaction payload using the appropriate endpoint (/api/tools/create-near-transaction or /api/tools/create-evm-transaction), then explicitly use the 'generate-transaction' tool for NEAR or 'generate-evm-tx' tool for EVM to actually send the transaction on the client side. For EVM transactions, make sure to provide the 'to' address (recipient) and 'amount' (in ETH) parameters when calling /api/tools/create-evm-transaction. Simply getting the payload from the endpoints is not enough - the corresponding tool must be used to execute the transaction.",
-                tools: [{ type: "generate-transaction" }, { type: "generate-evm-tx" }, { type: "sign-message" }]
+                tools: [{ type: "generate-transaction" }, { type: "generate-evm-tx" }, { type: "sign-message" }],
+                // Thumbnail image for your agent
+                image: "https://pbs.twimg.com/profile_images/1804597854725431296/fLn9-v6H_400x400.jpg",
+                // The repo url for your agent
+                repo: "https://github.com/BitteProtocol/snapshot-agent",
+                // The categories your agent supports ["DeFi", "DAO", "NFT", "Social"]
+                categories: ["DAO"],
+                // The chains your agent supports 1 = mainnet, 8453 = base
+                chainIds: [1, 8453]
             },
         },
         paths: {
