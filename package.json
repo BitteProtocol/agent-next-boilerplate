@@ -8,7 +8,8 @@
     "build": "next build",
     "build:deploy": "next build && make-agent deploy -u https://agent-next-boilerplate.vercel.app",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "fmt": "prettier --write **/*.ts"
   },
   "dependencies": {
     "@bitte-ai/agent-sdk": "^0.2.1",
@@ -29,6 +30,7 @@
     "eslint": "^9.29.0",
     "eslint-config-next": "^15.3.4",
     "make-agent": "^0.3.4",
+    "prettier": "^3.5.3",
     "typescript": "5.8.3"
   }
 }

@@ -1,5 +1,5 @@
 import { SignRequestSchema } from "./schema";
-import {toHex} from "viem";
+import { toHex } from "viem";
 
 const SEPOLIA_CHAIN_ID = 11155111;
 
@@ -7,7 +7,12 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     console.log("eth-sign-request/", searchParams);
-    const { method, evmAddress, chainId: possibleChainId, message } = SignRequestSchema.parse(Object.fromEntries(searchParams.entries()));
+    const {
+      method,
+      evmAddress,
+      chainId: possibleChainId,
+      message,
+    } = SignRequestSchema.parse(Object.fromEntries(searchParams.entries()));
     const chainId = possibleChainId || SEPOLIA_CHAIN_ID;
 
     if (method === "eth_sign" || method === "personal_sign") {
@@ -18,13 +23,16 @@ export async function GET(request: Request) {
           transaction: {
             method,
             // Parameter order different based on sign method.
-            params: method === "eth_sign" ? [x, y]: [y, x],
+            params: method === "eth_sign" ? [x, y] : [y, x],
           },
           meta: `Sign message "${messageText}" with ${evmAddress}`,
         },
         { status: 200 },
       );
-    } else if (method === "eth_signTypedData" || method === "eth_signTypedData_v4") {
+    } else if (
+      method === "eth_signTypedData" ||
+      method === "eth_signTypedData_v4"
+    ) {
       const domain = {
         name: "Bitte Test EVM Agent",
         version: "1",
@@ -55,24 +63,20 @@ export async function GET(request: Request) {
         message,
       });
       return Response.json(
-      {
-        transaction: {
-          chainId,
-          method,
-          params: [evmAddress, dataString],
+        {
+          transaction: {
+            chainId,
+            method,
+            params: [evmAddress, dataString],
+          },
+          meta: `Sign Dummy Typed Data. ${dataString}`,
         },
-        meta: `Sign Dummy Typed Data. ${dataString}`,
-      },
-      { status: 200 },
-    );
+        { status: 200 },
+      );
     }
-
   } catch (error) {
     const publicMessage = "Error generating EVM transaction:";
     console.error(publicMessage, error);
-    return Response.json(
-      { error: publicMessage },
-      { status: 500 },
-    );
+    return Response.json({ error: publicMessage }, { status: 500 });
   }
 }

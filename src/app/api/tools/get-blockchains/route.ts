@@ -1,25 +1,25 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 export async function GET() {
   const blockchains = [
-    'Bitcoin',
-    'Ethereum',
-    'Cardano',
-    'Polkadot',
-    'Solana',
-    'Avalanche',
-    'Binance Smart Chain',
-    'Tezos',
-    'Algorand',
-    'Cosmos',
-    'Near',
-    'Aptos',
-    'Sui',
-    'Starknet',
-    'ZKsync',
-    'Scroll',
-    'Optimism',
-    'Arbitrum',
+    "Bitcoin",
+    "Ethereum",
+    "Cardano",
+    "Polkadot",
+    "Solana",
+    "Avalanche",
+    "Binance Smart Chain",
+    "Tezos",
+    "Algorand",
+    "Cosmos",
+    "Near",
+    "Aptos",
+    "Sui",
+    "Starknet",
+    "ZKsync",
+    "Scroll",
+    "Optimism",
+    "Arbitrum",
   ];
 
   const randomBlockchains = blockchains
