@@ -476,16 +476,17 @@ export async function GET() {
         method: {
           name: "method",
           description: 'The signing method to be used.',
-          type: 'enum',
           in: "query",
           required: true,
-          enum: [
-            'eth_sign',
-            'personal_sign',
-            'eth_signTypedData',
-            'eth_signTypedData_v4',
-          ],
-          schema: {type: "string"},
+          schema: {
+            type: "string",
+            enum: [
+              'eth_sign',
+              'personal_sign',
+              'eth_signTypedData',
+              'eth_signTypedData_v4',
+            ],
+          },
           example: "eth_sign",
         },
         chainId: {...chainIdParam, example: 11155111, required: false},
