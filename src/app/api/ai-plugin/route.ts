@@ -20,7 +20,7 @@ export async function GET() {
         servers: [
             {
                 // Enter the base and open url of your agent here, make sure it is reachable
-                url: "https://snapshot-agent.vercel.app/"
+                url: "https://agent-next-boilerplate.vercel.app/"
             }
         ],
         "x-mb": {
@@ -489,7 +489,7 @@ export async function GET() {
           },
           example: "eth_sign",
         },
-        chainId: {...chainIdParam, example: 11155111, required: false},
+        chainId: {...chainIdParam, example: 8453, required: false},
         message: {
           name: "message",
           in: "query",
